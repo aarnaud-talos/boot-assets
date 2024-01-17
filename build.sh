@@ -1,5 +1,7 @@
 #/bin/bash
 
+git submodule update --init
+
 docker buildx use local || docker buildx create --name local --use --config=buildkit.config
 
 cd pkgs
