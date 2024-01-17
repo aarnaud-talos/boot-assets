@@ -6,14 +6,17 @@ git submodule update --init
 docker buildx use local || docker buildx create --name local --use --config=buildkit.config
 
 cd pkgs
+echo "#### using pkgs repository"
 export PKGS_VERSION=$(git describe --tag --always --dirty)
 make PLATFORM=linux/amd64 USERNAME=aarnaud-talos PUSH=true
 
 cd ../extensions
+echo "#### using extensions repository"
 export EXTENSION_VERSION=$(git describe --tag --always --dirty)
 make PLATFORM=linux/amd64 PKGS=${PKGS_VERSION} USERNAME=aarnaud-talos PKGS_PREFIX=ghcr.io/aarnaud-talos PUSH=true
 
 cd ../talos
+echo "#### using talos repository"
 export TALOS_VERSION=$(git describe --tag --always --dirty)
 make installer PLATFORM=linux/amd64 USERNAME=aarnaud-talos PKGS_PREFIX=ghcr.io/aarnaud-talos PKGS=${PKGS_VERSION} PKG_KERNEL=ghcr.io/aarnaud-talos/kernel:${PKGS_VERSION} PUSH=true
 make imager PLATFORM=linux/amd64 INSTALLER_ARCH=amd64 USERNAME=aarnaud-talos PKGS_PREFIX=ghcr.io/aarnaud-talos PKGS=${PKGS_VERSION} PKG_KERNEL=ghcr.io/aarnaud-talos/kernel:${PKGS_VERSION} PUSH=true
