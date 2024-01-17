@@ -2,7 +2,7 @@
 
 docker buildx use local || docker buildx create --name local --use --config=buildkit.config
 
-cd pkg
+cd pkgs
 export PKGS_VERSION=$(git describe --tag --always --dirty)
 make PLATFORM=linux/amd64 USERNAME=aarnaud-talos
 
