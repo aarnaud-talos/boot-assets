@@ -1,0 +1,9 @@
+[submodule "pkgs"]
+	path = pkgs
+	url = https://github.com/aarnaud-talos/pkgs.git
+[submodule "extensions"]
+	path = extensions
+	url = https://github.com/aarnaud-talos/extensions.git
+[submodule "talos"]
+	path = talos
+	url = https://github.com/aarnaud-talos/talos.git
