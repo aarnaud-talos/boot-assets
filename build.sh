@@ -10,7 +10,7 @@ make PLATFORM=linux/amd64 USERNAME=aarnaud-talos PUSH=true
 
 cd ../extensions
 export EXTENSION_VERSION=$(git describe --tag --always --dirty)
-make PLATFORM=linux/amd64 PKGS=${PKGS_VERSION} USERNAME=aarnaud-talos PUSH=true
+make PLATFORM=linux/amd64 PKGS=${PKGS_VERSION} USERNAME=aarnaud-talos PKGS_PREFIX=ghcr.io/aarnaud-talos PUSH=true
 
 cd ../talos
 export TALOS_VERSION=$(git describe --tag --always --dirty)
