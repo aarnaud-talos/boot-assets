@@ -6,16 +6,16 @@ docker buildx use local || docker buildx create --name local --use --config=buil
 
 cd pkgs
 export PKGS_VERSION=$(git describe --tag --always --dirty)
-make PLATFORM=linux/amd64 USERNAME=aarnaud-talos
+make PLATFORM=linux/amd64 USERNAME=aarnaud-talos PUSH=true
 
 cd extensions
 export EXTENSION_VERSION=$(git describe --tag --always --dirty)
-make PLATFORM=linux/amd64 PKGS=${PKGS_VERSION} USERNAME=aarnaud-talos
+make PLATFORM=linux/amd64 PKGS=${PKGS_VERSION} USERNAME=aarnaud-talos PUSH=true
 
 cd talos
 export TALOS_VERSION=$(git describe --tag --always --dirty)
-make installer PLATFORM=linux/amd64 USERNAME=aarnaud-talos PKGS=${PKGS_VERSION} PKG_KERNEL=ghcr.io/aarnaud-talos/kernel:${PKGS_VERSION}
-make imager PLATFORM=linux/amd64 INSTALLER_ARCH=amd64 USERNAME=aarnaud-talos PKGS=${PKGS_VERSION} PKG_KERNEL=ghcr.io/aarnaud-talos/kernel:${PKGS_VERSION}
+make installer PLATFORM=linux/amd64 USERNAME=aarnaud-talos PKGS=${PKGS_VERSION} PKG_KERNEL=ghcr.io/aarnaud-talos/kernel:${PKGS_VERSION} PUSH=true
+make imager PLATFORM=linux/amd64 INSTALLER_ARCH=amd64 USERNAME=aarnaud-talos PKGS=${PKGS_VERSION} PKG_KERNEL=ghcr.io/aarnaud-talos/kernel:${PKGS_VERSION} PUSH=true
 
 docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSION} metal --output-kind installer \
   --output-image-options raw \
