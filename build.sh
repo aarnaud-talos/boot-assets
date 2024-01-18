@@ -25,16 +25,20 @@ make imager PLATFORM=linux/amd64 INSTALLER_ARCH=amd64 USERNAME=aarnaud-talos PKG
 docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSION} metal --output-kind installer \
   --system-extension-image ghcr.io/aarnaud-talos/intel-ucode:20240115 \
   --system-extension-image ghcr.io/aarnaud-talos/i915-ucode:20240115 \
-  --system-extension-image ghcr.io/aarnaud-talos/iscsi-tools:${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/iscsi-tools:v0.1.4 \
   --system-extension-image ghcr.io/aarnaud-talos/thunderbolt:${EXTENSION_VERSION} \
   --system-extension-image ghcr.io/aarnaud-talos/util-linux-tools:${EXTENSION_VERSION} \
-  --system-extension-image ghcr.io/aarnaud-talos/zfs:${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/zfs:2.2.2-${EXTENSION_VERSION} \
   --system-extension-image ghcr.io/aarnaud-talos/applesmc-t2:${EXTENSION_VERSION}
 xz -d _out/installer-amd64.tar.xz
 
 crane push --platform linux/amd64 _out/installer-amd64.tar ghcr.io/aarnaud-talos/installer:${TALOS_VERSION}-applesmc-t2
 
 docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSION} metal --output-kind iso \
-  --system-extension-image ghcr.io/siderolabs/intel-ucode:20240115 \
-  --system-extension-image ghcr.io/siderolabs/i915-ucode:20240115 \
+  --system-extension-image ghcr.io/aarnaud-talos/intel-ucode:20240115 \
+  --system-extension-image ghcr.io/aarnaud-talos/i915-ucode:20240115 \
+  --system-extension-image ghcr.io/aarnaud-talos/iscsi-tools:v0.1.4 \
+  --system-extension-image ghcr.io/aarnaud-talos/thunderbolt:${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/util-linux-tools:${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/zfs:2.2.2-${EXTENSION_VERSION} \
   --system-extension-image ghcr.io/aarnaud-talos/applesmc-t2:${EXTENSION_VERSION}
