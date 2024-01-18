@@ -26,7 +26,7 @@ docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSIO
   --system-extension-image ghcr.io/aarnaud-talos/intel-ucode:20240115 \
   --system-extension-image ghcr.io/aarnaud-talos/i915-ucode:20240115 \
   --system-extension-image ghcr.io/aarnaud-talos/applesmc-t2:${EXTENSION_VERSION}
-xz -d installer-amd64.tar.xz
+xz -d _out/installer-amd64.tar.xz
 
 crane push --platform linux/amd64 _out/installer-amd64.tar ghcr.io/aarnaud-talos/installer:${TALOS_VERSION}-applesmc-t2
 
