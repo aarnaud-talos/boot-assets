@@ -2,7 +2,7 @@
 set -e
 
 # install crane
-
+apt-get install -y jq make
 CRANE_VERSION=$(curl -s "https://api.github.com/repos/google/go-containerregistry/releases/latest" | jq -r '.tag_name')
 curl -sL "https://github.com/google/go-containerregistry/releases/download/${CRANE_VERSION}/go-containerregistry_Linux_x86_64.tar.gz" > go-containerregistry.tar.gz
 tar -zxvf go-containerregistry.tar.gz -C /usr/local/bin/ crane && rm go-containerregistry.tar.gz
