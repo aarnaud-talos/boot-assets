@@ -1,6 +1,12 @@
 #/bin/bash
 set -e
 
+# install crane
+
+CRANE_VERSION=$(curl -s "https://api.github.com/repos/google/go-containerregistry/releases/latest" | jq -r '.tag_name')
+curl -sL "https://github.com/google/go-containerregistry/releases/download/${CRANE_VERSION}/go-containerregistry_Linux_x86_64.tar.gz" > go-containerregistry.tar.gz
+tar -zxvf go-containerregistry.tar.gz -C /usr/local/bin/ crane && rm go-containerregistry.tar.gz
+
 git submodule update --init
 git submodule foreach --recursive 'git fetch --tags'
 
@@ -32,9 +38,27 @@ docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSIO
   --system-extension-image ghcr.io/aarnaud-talos/applesmc-t2:${EXTENSION_VERSION}
 xz -d _out/installer-amd64.tar.xz
 
-crane push --platform linux/amd64 _out/installer-amd64.tar ghcr.io/aarnaud-talos/installer:${TALOS_VERSION}-applesmc-t2
+/usr/local/bin/crane push --platform linux/amd64 _out/installer-amd64.tar ghcr.io/aarnaud-talos/installer:${TALOS_VERSION}-applesmc-t2
 
 docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSION} metal --output-kind iso \
+  --system-extension-image ghcr.io/aarnaud-talos/intel-ucode:20240115 \
+  --system-extension-image ghcr.io/aarnaud-talos/i915-ucode:20240115 \
+  --system-extension-image ghcr.io/aarnaud-talos/iscsi-tools:v0.1.4 \
+  --system-extension-image ghcr.io/aarnaud-talos/thunderbolt:${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/util-linux-tools:${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/zfs:2.2.2-${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/applesmc-t2:${EXTENSION_VERSION}
+
+docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSION} metal --output-kind kernel \
+  --system-extension-image ghcr.io/aarnaud-talos/intel-ucode:20240115 \
+  --system-extension-image ghcr.io/aarnaud-talos/i915-ucode:20240115 \
+  --system-extension-image ghcr.io/aarnaud-talos/iscsi-tools:v0.1.4 \
+  --system-extension-image ghcr.io/aarnaud-talos/thunderbolt:${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/util-linux-tools:${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/zfs:2.2.2-${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/applesmc-t2:${EXTENSION_VERSION}
+
+docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSION} metal --output-kind initramfs \
   --system-extension-image ghcr.io/aarnaud-talos/intel-ucode:20240115 \
   --system-extension-image ghcr.io/aarnaud-talos/i915-ucode:20240115 \
   --system-extension-image ghcr.io/aarnaud-talos/iscsi-tools:v0.1.4 \
