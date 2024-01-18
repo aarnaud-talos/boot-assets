@@ -22,14 +22,14 @@ make installer PLATFORM=linux/amd64 USERNAME=aarnaud-talos PKGS_PREFIX=ghcr.io/a
 make imager PLATFORM=linux/amd64 INSTALLER_ARCH=amd64 USERNAME=aarnaud-talos PKGS_PREFIX=ghcr.io/aarnaud-talos PKGS=${PKGS_VERSION} PKG_KERNEL=ghcr.io/aarnaud-talos/kernel:${PKGS_VERSION} PUSH=true
 
 docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSION} metal --output-kind installer \
-  --system-extension-image ghcr.io/siderolabs/intel-ucode:20231114 \
-  --system-extension-image ghcr.io/siderolabs/i915-ucode:20231111 \
+  --system-extension-image ghcr.io/siderolabs/intel-ucode:20240115 \
+  --system-extension-image ghcr.io/siderolabs/i915-ucode:20240115 \
   --system-extension-image ghcr.io/aarnaud-talos/applesmc-t2:${EXTENSION_VERSION}
 xz -d installer-amd64.tar.xz
 
 crane push --platform linux/amd64 _out/installer-amd64.tar ghcr.io/aarnaud-talos/installer:${TALOS_VERSION}-applesmc-t2
 
 docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSION} metal --output-kind iso \
-  --system-extension-image ghcr.io/siderolabs/intel-ucode:20231114 \
-  --system-extension-image ghcr.io/siderolabs/i915-ucode:20231111 \
+  --system-extension-image ghcr.io/siderolabs/intel-ucode:20240115 \
+  --system-extension-image ghcr.io/siderolabs/i915-ucode:20240115 \
   --system-extension-image ghcr.io/aarnaud-talos/applesmc-t2:${EXTENSION_VERSION}
