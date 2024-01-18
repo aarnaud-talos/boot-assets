@@ -25,6 +25,10 @@ make imager PLATFORM=linux/amd64 INSTALLER_ARCH=amd64 USERNAME=aarnaud-talos PKG
 docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSION} metal --output-kind installer \
   --system-extension-image ghcr.io/aarnaud-talos/intel-ucode:20240115 \
   --system-extension-image ghcr.io/aarnaud-talos/i915-ucode:20240115 \
+  --system-extension-image ghcr.io/aarnaud-talos/iscsi-tools:${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/thunderbolt:${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/util-linux-tools:${EXTENSION_VERSION} \
+  --system-extension-image ghcr.io/aarnaud-talos/zfs:${EXTENSION_VERSION} \
   --system-extension-image ghcr.io/aarnaud-talos/applesmc-t2:${EXTENSION_VERSION}
 xz -d _out/installer-amd64.tar.xz
 
