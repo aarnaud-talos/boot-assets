@@ -2,6 +2,7 @@
 set -e
 
 git submodule update --init
+git submodule foreach --recursive 'git fetch --tags'
 
 docker buildx use local || docker buildx create --name local --use --config=buildkit.config
 
