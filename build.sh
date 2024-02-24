@@ -52,6 +52,6 @@ docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSIO
   --output-kind kernel ${IMAGER_ARGS}
 
 
-# initramfs
-docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSION} metal \
-  --output-kind initramfs ${IMAGER_ARGS}
+# initramfs failed because xz
+#docker run --rm -t -v $PWD/_out:/out ghcr.io/aarnaud-talos/imager:${TALOS_VERSION} metal \
+#  --output-kind initramfs ${IMAGER_ARGS}
