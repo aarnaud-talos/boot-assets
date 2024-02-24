@@ -29,12 +29,12 @@ make installer PLATFORM=linux/amd64 USERNAME=aarnaud-talos PKGS_PREFIX=ghcr.io/a
 make imager PLATFORM=linux/amd64 INSTALLER_ARCH=amd64 USERNAME=aarnaud-talos PKGS_PREFIX=ghcr.io/aarnaud-talos PKGS=${PKGS_VERSION} PKG_KERNEL=ghcr.io/aarnaud-talos/kernel:${PKGS_VERSION} PUSH=true
 
 
-IMAGER_ARGS="--system-extension-image ghcr.io/aarnaud-talos/intel-ucode:20240115 \
+IMAGER_ARGS="--system-extension-image ghcr.io/aarnaud-talos/intel-ucode:20231114 \
               --system-extension-image ghcr.io/aarnaud-talos/i915-ucode:20240115 \
               --system-extension-image ghcr.io/aarnaud-talos/iscsi-tools:v0.1.4 \
               --system-extension-image ghcr.io/aarnaud-talos/thunderbolt:${EXTENSION_VERSION} \
               --system-extension-image ghcr.io/aarnaud-talos/util-linux-tools:${EXTENSION_VERSION} \
-              --system-extension-image ghcr.io/aarnaud-talos/zfs:2.2.2-${EXTENSION_VERSION} \
+              --system-extension-image ghcr.io/aarnaud-talos/zfs:2.1.14-${EXTENSION_VERSION} \
               --system-extension-image ghcr.io/aarnaud-talos/applesmc-t2:${EXTENSION_VERSION}"
 
 # Installer
